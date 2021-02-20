@@ -207,11 +207,11 @@ func cfg(t *testing.T, bs string, extraCfg string) string {
 	if err != nil {
 		t.Fatal(err)
 	}
-	cert, err := ioutil.ReadFile("../secrets/terraform-cert.pem")
+	cert, err := ioutil.ReadFile("../secrets/client.pem")
 	if err != nil {
 		t.Fatal(err)
 	}
-	key, err := ioutil.ReadFile("../secrets/terraform.pem")
+	key, err := ioutil.ReadFile("../secrets/client.key")
 	if err != nil {
 		t.Fatal(err)
 	}
