@@ -231,6 +231,9 @@ func testResourceTopic_produceMessages(messages []*sarama.ProducerMessage) r.Tes
 		if c == nil {
 			return fmt.Errorf("unable to get client")
 		}
+		if c.inner == nil {
+			return fmt.Errorf("unable to get config")
+		}
 		config := c.inner.config
 		kafkaConfig, err := config.newKafkaConfig()
 		if err != nil {
