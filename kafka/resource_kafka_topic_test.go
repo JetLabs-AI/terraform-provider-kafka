@@ -227,7 +227,11 @@ func testResourceTopic_initialCheck(s *terraform.State) error {
 
 func testResourceTopic_produceMessages(messages []*sarama.ProducerMessage) r.TestCheckFunc {
 	return func(s *terraform.State) error {
-		config := testProvider.Meta().(*LazyClient).inner.config
+		c := testProvider.Meta().(*LazyClient)
+		if c == nil {
+			return fmt.Errorf("unable to get client")
+		}
+		config := c.inner.config
 		kafkaConfig, err := config.newKafkaConfig()
 		if err != nil {
 			return err
