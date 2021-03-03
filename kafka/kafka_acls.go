@@ -101,7 +101,6 @@ func tfToAclFilter(s StringlyTypedACL) (sarama.AclFilter, error) {
 	return f, nil
 }
 
-
 func stringToACLPrefix(s string) sarama.AclResourcePatternType {
 	switch s {
 	case "Any":

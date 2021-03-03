@@ -22,7 +22,7 @@ func TestProvider(t *testing.T) {
 }
 
 func testAccPreCheck(t *testing.T) {
-	datProvider()
+	overrideProvider()
 	meta := testProvider.Meta()
 	if meta == nil {
 		t.Fatal("Could not construct client")
@@ -34,18 +34,7 @@ func testAccPreCheck(t *testing.T) {
 }
 
 func AccTestProviderConfig() *terraform.ResourceConfig {
-	wat := os.Getenv("KAFKA_BOOTSTRAP_SERVERS")
-	bs := strings.Split(wat, ",")
-	if len(bs) == 0 || wat != "" {
-		bs = []string{"localhost:9092"}
-	}
-
-	bootstrapServers := []interface{}{}
-	for _, v := range bs {
-		if v != "" {
-			bootstrapServers = append(bootstrapServers, v)
-		}
-	}
+	bootstrapServers := bootstrapServersFromEnv()
 
 	ca, _ := ioutil.ReadFile("../secrets/ca.crt")
 	cert, _ := ioutil.ReadFile("../secrets/terraform-cert.pem")
@@ -60,7 +49,7 @@ func AccTestProviderConfig() *terraform.ResourceConfig {
 	return terraform.NewResourceConfigRaw(raw)
 }
 
-func datProvider() *schema.Provider {
+func overrideProvider() *schema.Provider {
 	log.Println("[INFO] Setting up override for a provider")
 	provider := Provider()
 
@@ -75,7 +64,7 @@ func datProvider() *schema.Provider {
 
 func accProvider() map[string]*schema.Provider {
 	return map[string]*schema.Provider{
-		"kafka": datProvider(),
+		"kafka": overrideProvider(),
 	}
 }
 

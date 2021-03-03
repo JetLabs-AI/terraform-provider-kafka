@@ -25,7 +25,7 @@ func TestAcc_ACLCreateAndUpdate(t *testing.T) {
 	r.ParallelTest(t, r.TestCase{
 		ProviderFactories: map[string]func() (*schema.Provider, error){
 			"kafka": func() (*schema.Provider, error) {
-				return datProvider(), nil
+				return overrideProvider(), nil
 			},
 		},
 		PreCheck:     func() { testAccPreCheck(t) },
